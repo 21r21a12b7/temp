@@ -225,6 +225,8 @@
                         }).addTo(map);
 
                         busMarker.on('click', function () {
+                            shouldFollowMarker=true;
+                            document.querySelector('.follow-marker-button').style.backgroundColor = 'white';
                             map.flyTo(presentBusLocation, 19, {
                                 animate: true,
                             });
@@ -348,6 +350,12 @@
         });
 
         map.on('click', function () {
+            shouldFollowMarker = false;
+            console.log(shouldFollowMarker);
+            document.querySelector('.follow-marker-button').style.backgroundColor = 'yellow';
+        });
+
+        map.on('dragstart', function () {
             shouldFollowMarker = false;
             console.log(shouldFollowMarker);
             document.querySelector('.follow-marker-button').style.backgroundColor = 'yellow';
