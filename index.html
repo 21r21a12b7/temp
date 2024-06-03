@@ -70,7 +70,7 @@
             border-radius: 5px;
             color: black;
             font-family: 'Manrope', sans-serif;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         .info-item img {
@@ -161,7 +161,9 @@
                     const routes = e.routes;
                     const summary = routes[0].summary;
                     const distanceKm = summary.totalDistance / 1000;
-                    const timeHr = distanceKm / speed;
+                    if (speed != 0) {
+                        const timeHr = distanceKm / speed;
+                    }
 
                     let distance, time;
                     if (distanceKm < 1) {
@@ -172,12 +174,17 @@
                         distance = `${km}km ${meters}m`;
                     }
 
-                    if (timeHr < 1) {
-                        time = (timeHr * 60).toFixed(0) + 'min';
-                    } else {
-                        const hours = Math.floor(timeHr);
-                        const minutes = ((timeHr - hours) * 60).toFixed(0);
-                        time = `${hours}hr ${minutes}min`;
+                    if (speed != 0) {
+                        if (timeHr < 1) {
+                            time = (timeHr * 60).toFixed(0) + 'min';
+                        } else {
+                            const hours = Math.floor(timeHr);
+                            const minutes = ((timeHr - hours) * 60).toFixed(0);
+                            time = `${hours}hr ${minutes}min`;
+                        }
+                    }
+                    else{
+                        time=`not moving`;
                     }
 
                     resolve({
@@ -203,6 +210,7 @@
                 const data = await response.json();
                 previousBusLocation = [...presentBusLocation];
                 presentBusLocation = [data.latitude, data.longitude];
+                var speed = data.speed;
 
                 console.log(shouldFollowMarker);
 
@@ -225,7 +233,7 @@
                         animateMarker(busMarker, previousBusLocation, presentBusLocation, 1000);
                     }
 
-                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, 15);
+                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, speed);
                     document.getElementById('distance').textContent = result.distance;
                     document.getElementById('time').textContent = result.time;
                     document.getElementById('speed').textContent = result.speed;
@@ -346,7 +354,7 @@
         });
 
         fetchBusLocation();
-        setInterval(fetchBusLocation, 10000);
+        setInterval(fetchBusLocation, 5000);
     </script>
 </body>
 
