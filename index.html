@@ -189,8 +189,7 @@
 
                     resolve({
                         distance,
-                        time,
-                        speed: `${speed}kmph`
+                        time
                     });
                 });
 
@@ -210,7 +209,6 @@
                 const data = await response.json();
                 previousBusLocation = [...presentBusLocation];
                 presentBusLocation = [data.latitude, data.longitude];
-                const speed = data.speed;
 
                 console.log(shouldFollowMarker);
 
@@ -242,10 +240,10 @@
                         });
                     }
 
-                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, speed);
+                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, data.speed);
                     document.getElementById('distance').textContent = result.distance;
                     document.getElementById('time').textContent = result.time;
-                    document.getElementById('speed').textContent = result.speed;
+                    document.getElementById('speed').textContent = `${data.speed}kmph`;
                     
                 }
             } catch (error) {
