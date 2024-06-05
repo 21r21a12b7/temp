@@ -210,7 +210,7 @@
                 const data = await response.json();
                 previousBusLocation = [...presentBusLocation];
                 presentBusLocation = [data.latitude, data.longitude];
-                var speed = data.speed;
+                const speed = data.speed;
 
                 console.log(shouldFollowMarker);
 
@@ -363,7 +363,7 @@
         });
 
         fetchBusLocation();
-        setInterval(fetchBusLocation, 5000);
+        setInterval(fetchBusLocation, 10000);
     </script>
 </body>
 
