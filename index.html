@@ -235,17 +235,18 @@
                         animateMarker(busMarker, previousBusLocation, presentBusLocation, 1000);
                     }
 
-                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, speed);
-                    document.getElementById('distance').textContent = result.distance;
-                    document.getElementById('time').textContent = result.time;
-                    document.getElementById('speed').textContent = result.speed;
-
                     console.log(shouldFollowMarker);
                     if (shouldFollowMarker) {
                         map.flyTo(presentBusLocation, 19, {
                             animate: true,
                         });
                     }
+
+                    const result = await calculateDistanceTimeSpeed(presentBusLocation, studentStopLocation, speed);
+                    document.getElementById('distance').textContent = result.distance;
+                    document.getElementById('time').textContent = result.time;
+                    document.getElementById('speed').textContent = result.speed;
+                    
                 }
             } catch (error) {
                 console.error('Error fetching bus location:', error);
